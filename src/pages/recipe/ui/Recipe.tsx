@@ -1,12 +1,5 @@
-import { APP_ROUTES } from "@shared/routes";
-import { Link } from "react-router";
-
 export const Recipe = () => (
   <div>
-    <div>
-      {" "}
-      <Link to={APP_ROUTES.MAIN}>Back to Main</Link>
-    </div>
     Recipe of pizza:
     <ul>
       <li>flour: 1 cup</li>
