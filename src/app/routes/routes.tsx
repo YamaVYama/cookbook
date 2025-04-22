@@ -16,7 +16,7 @@ export const router = createBrowserRouter([
       },
       {
         path: pages.profile.route,
-        Component: pages.recipe.view,
+        Component: pages.profile.view,
       },
     ],
   },

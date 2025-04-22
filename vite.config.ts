@@ -13,6 +13,7 @@ export default defineConfig({
       "@shared": path.resolve(__dirname, "./src/shared"),
       "@processes": path.resolve(__dirname, "./src/processes"),
       "@widgets": path.resolve(__dirname, "./src/widgets"),
+      "@entities": path.resolve(__dirname, "./src/entities"),
     },
   },
   plugins: [react()],

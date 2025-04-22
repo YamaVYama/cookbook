@@ -15,6 +15,7 @@ export const CommonLayout = () => {
         breakpoint: "sm",
         collapsed: { mobile: !opened },
       }}
+      footer={{ height: 32 }}
       padding="md"
     >
       <AppShell.Header>
@@ -31,6 +32,14 @@ export const CommonLayout = () => {
       <AppShell.Main>
         <Outlet />
       </AppShell.Main>
+
+      <AppShell.Footer>
+        Some interesting info in footer:
+        <div>
+          Did you know that if you acutally doing something - you are bound to
+          have a result?
+        </div>
+      </AppShell.Footer>
     </AppShell>
   );
 };
