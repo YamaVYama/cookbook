@@ -1,37 +1,26 @@
 import { fetchRecipe } from "@entities/recipe";
+import { Recipe as DataRecipe } from "@entities/recipe/api/recipe";
 
-import {
-  Button,
-  Chip,
-  TextInput,
-  Text,
-  List,
-  Title,
-  Flex,
-  Skeleton,
-} from "@mantine/core";
+import { Button, Chip, Skeleton, TextInput } from "@mantine/core";
+import { ViewRecipeWidget } from "@widgets/index";
 import { useState } from "react";
 
-// temporary interface for prototyping
-interface Recipe {
-  title: string;
-  ingredients: string;
-  servings: string;
-  instructions: string;
-}
-
 export const Recipe = () => {
-  const [recipe, setRecipe] = useState<Recipe | null>(null);
+  const [recipe, setRecipe] = useState<DataRecipe[] | undefined>(undefined);
+  const [currentRecipe, setCurrentRecipe] = useState<DataRecipe | null>(null);
   const [query, setQuery] = useState<string | undefined>(undefined);
   const [isLoad, setIsLoad] = useState(false);
 
-  const handleButtonClick = async () => {
-    if (!query) return;
+  const handleClickRecipe = (rec: DataRecipe) => {
+    setCurrentRecipe(rec);
+  };
 
+  const handleSearchRecipe = async () => {
+    if (!query) return;
     setIsLoad(true);
-    setRecipe(null);
+    setRecipe(undefined);
     const data = await fetchRecipe(query);
-    setRecipe(data[0]);
+    setRecipe(data);
     setIsLoad(false);
   };
 
@@ -47,28 +36,19 @@ export const Recipe = () => {
         label="Search for recipe"
         placeholder="E.g. borchs"
       />
-      <Button style={{ marginBottom: 24 }} onClick={handleButtonClick}>
-        Fetch recipe
+      <Button style={{ marginBottom: 24 }} onClick={handleSearchRecipe}>
+        Search recipe
       </Button>
-      {isLoad && (
-        <>
-          <Skeleton height={24} mt={3} mb={6} radius="xl" />
-          <Skeleton height={300} mt={6} radius="xl" />
-          <Skeleton height={40} mt={6} radius="xl" />
-        </>
+      {isLoad && <Skeleton height={20} radius="xl"></Skeleton>}
+      {recipe && !isLoad && (
+        <div>
+          {recipe.map((rec) => (
+            <Chip onClick={() => handleClickRecipe(rec)}>{rec.title}</Chip>
+          ))}
+        </div>
       )}
-      {recipe && (
-        <Flex direction="column" gap="sm">
-          <Title order={3}>{recipe.title}</Title>
-          <Text size="md">You will need some of those: </Text>
-          <List>
-            {recipe.ingredients
-              ?.split("|")
-              .map((item) => <List.Item key={item}>{item}</List.Item>)}
-          </List>
-          <Chip>{recipe.servings}</Chip>
-          <Text size="md">{recipe.instructions}</Text>
-        </Flex>
+      {currentRecipe && (
+        <ViewRecipeWidget load={isLoad} recipe={currentRecipe} />
       )}
     </div>
   );
