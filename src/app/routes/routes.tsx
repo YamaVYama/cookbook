@@ -18,6 +18,10 @@ export const router = createBrowserRouter([
         path: pages.profile.route,
         Component: pages.profile.view,
       },
+      {
+        path: pages.test.route,
+        Component: pages.test.view,
+      },
     ],
   },
   {

@@ -1,27 +1,21 @@
-import { fetchRecipe } from "@entities/recipe";
-import { Recipe as DataRecipe } from "@entities/recipe/api/recipe";
+import { useRecipeState } from "@features/get-recipe";
 
 import { Button, Chip, Skeleton, TextInput } from "@mantine/core";
 import { ViewRecipeWidget } from "@widgets/index";
 import { useState } from "react";
 
-export const Recipe = () => {
-  const [recipe, setRecipe] = useState<DataRecipe[] | undefined>(undefined);
-  const [currentRecipe, setCurrentRecipe] = useState<DataRecipe | null>(null);
+/* export const Recipe = () => {
   const [query, setQuery] = useState<string | undefined>(undefined);
-  const [isLoad, setIsLoad] = useState(false);
+  const {
+    handleSearchRecipe,
+    isLoad,
+    recipe,
+    currentRecipe,
+    setCurrentRecipe,
+  } = useRecipeState(query);
 
   const handleClickRecipe = (rec: DataRecipe) => {
     setCurrentRecipe(rec);
-  };
-
-  const handleSearchRecipe = async () => {
-    if (!query) return;
-    setIsLoad(true);
-    setRecipe(undefined);
-    const data = await fetchRecipe(query);
-    setRecipe(data);
-    setIsLoad(false);
   };
 
   const handleChangeQuery: React.ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -47,9 +41,8 @@ export const Recipe = () => {
           ))}
         </div>
       )}
-      {currentRecipe && (
-        <ViewRecipeWidget load={isLoad} recipe={currentRecipe} />
-      )}
+      <ViewRecipeWidget load={isLoad} recipe={currentRecipe} />
     </div>
   );
 };
+*/

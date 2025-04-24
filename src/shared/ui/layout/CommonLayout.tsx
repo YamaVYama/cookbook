@@ -27,6 +27,7 @@ export const CommonLayout = () => {
         <NavLink to={APP_ROUTES.MAIN}>Main</NavLink>
         <NavLink to={APP_ROUTES.RECIPE}>Recipe</NavLink>
         <NavLink to={APP_ROUTES.PROFILE}>Profile</NavLink>
+        <NavLink to={APP_ROUTES.TEST}>Test</NavLink>
       </AppShell.Navbar>
 
       <AppShell.Main>
@@ -35,10 +36,10 @@ export const CommonLayout = () => {
 
       <AppShell.Footer>
         Some interesting info in footer:
-        <div>
+        <span>
           Did you know that if you acutally doing something - you are bound to
           have a result?
-        </div>
+        </span>
       </AppShell.Footer>
     </AppShell>
   );

@@ -1,3 +1,3 @@
-import { fetchRecipe } from "./api/recipe";
+import { searchMeal } from "./api/searchMeal";
 
-export { fetchRecipe };
+export { searchMeal };

@@ -1,5 +1,6 @@
 export const APP_ROUTES = {
   MAIN: "/main",
   RECIPE: "/recipe",
-  PROFILE: "profile",
+  PROFILE: "/profile",
+  TEST: "/test",
 };

@@ -5,7 +5,7 @@ export const ViewRecipeWidget = ({
   recipe,
   load,
 }: {
-  recipe: Recipe;
+  recipe: Recipe | null;
   load: boolean;
 }) => {
   return (
