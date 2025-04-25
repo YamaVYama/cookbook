@@ -4,18 +4,19 @@ export async function searchMeal(search: string) {
   const dtoObject = await fetchData(apiEndpoints.search.endpoint, [
     [apiEndpoints.search.params.byName, search],
   ]);
+
   return convertMealDto(dtoObject.meals);
 }
 
 interface MealDto {
-  idMeal: string;
-  strMeal: string;
+  idMeal: string | null;
+  strMeal: string | null;
   strMealAlternate: string | null;
-  strCategory: string;
-  strArea: string;
-  strInstructions: string;
-  strMealThumb: string;
-  strTags: string;
+  strCategory: string | null;
+  strArea: string | null;
+  strInstructions: string | null;
+  strMealThumb: string | null;
+  strTags: string | null;
   strYoutube: string;
   strIngredient1: string;
   strIngredient2: string;
@@ -29,7 +30,7 @@ interface MealDto {
   strIngredient10: string;
   strIngredient11: string;
   strIngredient12: string;
-  strIngredient13: string;
+  strIngredient13: string | null;
   strIngredient14: string;
   strIngredient15: string;
   strIngredient16: string;
@@ -63,14 +64,14 @@ interface MealDto {
   dateModified: string | null;
 }
 
-interface Meal {
-  id: string;
-  name: string;
-  altName: string | null;
+export interface Meal {
+  idMeal: string;
+  meal: string;
+  mealAlternative: string | null;
   category: string;
   area: string;
   instructions: string;
-  thumb: string;
+  mealThumb: string;
   tags: string;
   youtube: string;
   ingredients: {
@@ -80,8 +81,10 @@ interface Meal {
   source: string;
   imageSource: string | null;
   creativeCommonsConfirmed: string | null;
+  dateModified: string | null;
 }
 
+// try out regular expression
 function convertKeyName(key: string) {
   if (key.includes("str")) {
     return key.slice(3).at(0)?.toLowerCase() + key.slice(4);
@@ -89,13 +92,38 @@ function convertKeyName(key: string) {
   return key;
 }
 
-function convertMealDto(meals: MealDto[]) {
-  return meals.map((meal) => {
-    const convertedObject: Record<string, unknown> = {};
+const regex = /(?<=ingredient)\d+/gm;
+
+function convertMealDto(meals: MealDto[]): Meal[] {
+  const convertedArray = meals.map((meal) => {
+    const convertedObject: Record<string, string | null> = {};
     Object.keys(meal).forEach(
       (key) =>
         (convertedObject[convertKeyName(key)] = meal[key as keyof MealDto]),
     );
     return convertedObject;
-  }) as unknown[] as Meal[];
+  });
+
+  return convertedArray.map((meal) => {
+    const newObj: Record<string, unknown> = {};
+    const ingredients: Record<string, string>[] = [];
+
+    Object.entries(meal).forEach((entry) => {
+      if (entry[0].includes("ingredient") && entry[1]?.trim()) {
+        ingredients.push({
+          name: entry[1],
+          measure: meal["measure" + entry[0].match(regex)] ?? "",
+        });
+      }
+
+      if (entry[0].includes("ingredient") || entry[0].includes("measure"))
+        return;
+
+      newObj[entry[0]] = entry[1];
+    });
+
+    newObj.ingredients = ingredients as { name: string; measure: string }[];
+
+    return newObj;
+  }) as unknown as Meal[];
 } // туточки надо доконвертить саму структуру, пока тут только ключики конвертятся

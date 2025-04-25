@@ -1,11 +1,11 @@
-import { Recipe } from "@entities/recipe/api/recipe";
-import { Text, Flex, Title, List, Chip, Skeleton } from "@mantine/core";
+import { Meal } from "@entities/recipe/api/searchMeal";
+import { Text, Flex, Title, List, Skeleton, Badge } from "@mantine/core";
 
 export const ViewRecipeWidget = ({
   recipe,
   load,
 }: {
-  recipe: Recipe | null;
+  recipe: Meal | null;
   load: boolean;
 }) => {
   return (
@@ -20,14 +20,18 @@ export const ViewRecipeWidget = ({
       )}
       {!load && recipe && (
         <>
-          <Title order={3}>{recipe.title}</Title>
+          <Title order={3}>{recipe.meal}</Title>
           <Text size="md">You will need some of those: </Text>
           <List>
             {recipe.ingredients.map((item) => (
-              <List.Item key={item}>{item}</List.Item>
+              <Badge key={item.name + item.measure}>
+                {item.name} - {item.measure}
+              </Badge>
             ))}
           </List>
-          <Chip>{recipe.servings}</Chip>
+          <Badge color="red">{recipe.category}</Badge>
+          <Badge color="gray">{recipe.area}</Badge>
+          <Badge color="grape">{recipe.tags}</Badge>
           <Text size="md">{recipe.instructions}</Text>
         </>
       )}

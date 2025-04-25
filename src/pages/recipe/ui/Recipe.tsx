@@ -1,10 +1,11 @@
+import { Meal } from "@entities/recipe/api/searchMeal";
 import { useRecipeState } from "@features/get-recipe";
 
-import { Button, Chip, Skeleton, TextInput } from "@mantine/core";
+import { Badge, Image, Button, Flex, Skeleton, TextInput } from "@mantine/core";
 import { ViewRecipeWidget } from "@widgets/index";
 import { useState } from "react";
 
-/* export const Recipe = () => {
+export const Recipe = () => {
   const [query, setQuery] = useState<string | undefined>(undefined);
   const {
     handleSearchRecipe,
@@ -14,7 +15,7 @@ import { useState } from "react";
     setCurrentRecipe,
   } = useRecipeState(query);
 
-  const handleClickRecipe = (rec: DataRecipe) => {
+  const handleClickRecipe = (rec: Meal) => {
     setCurrentRecipe(rec);
   };
 
@@ -37,7 +38,10 @@ import { useState } from "react";
       {recipe && !isLoad && (
         <div>
           {recipe.map((rec) => (
-            <Chip onClick={() => handleClickRecipe(rec)}>{rec.title}</Chip>
+            <Flex key={rec.idMeal} onClick={() => handleClickRecipe(rec)}>
+              <Badge color="green">{rec.meal}</Badge>
+              <Image height={120} width={120} src={rec.mealThumb} />
+            </Flex>
           ))}
         </div>
       )}
@@ -45,4 +49,3 @@ import { useState } from "react";
     </div>
   );
 };
-*/

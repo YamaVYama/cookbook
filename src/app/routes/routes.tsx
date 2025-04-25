@@ -7,6 +7,10 @@ export const router = createBrowserRouter([
     Component: CommonLayout,
     children: [
       {
+        index: true,
+        Component: pages.main.view,
+      },
+      {
         path: pages.main.route,
         Component: pages.main.view,
       },
