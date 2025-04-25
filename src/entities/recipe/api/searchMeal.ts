@@ -108,22 +108,21 @@ function convertMealDto(meals: MealDto[]): Meal[] {
     const newObj: Record<string, unknown> = {};
     const ingredients: Record<string, string>[] = [];
 
-    Object.entries(meal).forEach((entry) => {
-      if (entry[0].includes("ingredient") && entry[1]?.trim()) {
+    Object.entries(meal).forEach(([key, value]) => {
+      if (key.includes("ingredient") && value?.trim()) {
         ingredients.push({
-          name: entry[1],
-          measure: meal["measure" + entry[0].match(regex)] ?? "",
+          name: value,
+          measure: meal["measure" + key.match(regex)] ?? "",
         });
       }
 
-      if (entry[0].includes("ingredient") || entry[0].includes("measure"))
-        return;
+      if (key.includes("ingredient") || key.includes("measure")) return;
 
-      newObj[entry[0]] = entry[1];
+      newObj[key] = value;
     });
 
     newObj.ingredients = ingredients as { name: string; measure: string }[];
 
     return newObj;
   }) as unknown as Meal[];
-} // туточки надо доконвертить саму структуру, пока тут только ключики конвертятся
+}
