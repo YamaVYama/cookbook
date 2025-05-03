@@ -1,0 +1,21 @@
+.red {
+    outline: 1px dashed red;
+    padding: 20px;
+}
+
+.recipeCard {
+    padding: 24px;
+    cursor: pointer;
+    max-height: 300px;
+    outline: 1px dashed green;
+    border-radius: 8px;
+}
+
+.recipeCard:hover {
+    padding: 1rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Slight gray shadow */
+}
+
+.recipeCardCurrent {
+    background-color: rgba(0, 0, 0, 0.2);
+}

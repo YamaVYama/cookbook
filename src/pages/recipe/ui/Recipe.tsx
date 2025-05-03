@@ -1,9 +1,20 @@
 import { Meal } from "@entities/recipe/api/searchMeal";
 import { useRecipeState } from "@features/get-recipe";
 
-import { Badge, Image, Button, Flex, Skeleton, TextInput } from "@mantine/core";
+import {
+  Badge,
+  Image,
+  Text,
+  Button,
+  Flex,
+  Skeleton,
+  TextInput,
+  SimpleGrid,
+} from "@mantine/core";
 import { ViewRecipeWidget } from "@widgets/index";
 import { useState } from "react";
+
+import styles from "./styles.module.css";
 
 export const Recipe = () => {
   const [query, setQuery] = useState<string | undefined>(undefined);
@@ -23,8 +34,9 @@ export const Recipe = () => {
     setQuery(e.target.value);
   };
 
+  console.log(recipe);
   return (
-    <div>
+    <div className={styles.red}>
       <TextInput
         style={{ marginBottom: 24 }}
         onChange={handleChangeQuery}
@@ -36,14 +48,23 @@ export const Recipe = () => {
       </Button>
       {isLoad && <Skeleton height={20} radius="xl"></Skeleton>}
       {recipe && !isLoad && (
-        <div>
+        <SimpleGrid cols={4}>
           {recipe.map((rec) => (
-            <Flex key={rec.idMeal} onClick={() => handleClickRecipe(rec)}>
-              <Badge color="green">{rec.meal}</Badge>
+            <Flex
+              className={`${styles.recipeCard} ${currentRecipe?.idMeal === rec?.idMeal ? styles.recipeCardCurrent : ""}`}
+              direction="column"
+              gap="sm"
+              mb="sm"
+              key={rec.idMeal}
+              onClick={() => handleClickRecipe(rec)}
+            >
               <Image height={120} width={120} src={rec.mealThumb} />
+              <Badge color="black">{rec.meal}</Badge>
+              <Badge color="green">{rec.category}</Badge>
+              <Text size="16px">{rec.tags?.split(",").join(", ")}</Text>
             </Flex>
           ))}
-        </div>
+        </SimpleGrid>
       )}
       <ViewRecipeWidget load={isLoad} recipe={currentRecipe} />
     </div>
